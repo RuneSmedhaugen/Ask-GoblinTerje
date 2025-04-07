@@ -38,12 +38,7 @@ async function getAIResponse() {
 
   // Set GoblinTerje to "thinking" mode
   answerContainer.innerHTML = `<p>GoblinTerje is thinking...</p>`;
-  goblinImage.style.opacity = 0;
-
-  setTimeout(() => {
-    goblinImage.src = "img/TerjeTrollEyesClosed.png";
-    goblinImage.style.opacity = 1; 
-  }, 500);
+  goblinImage.src = "img/TerjeTrollEyesClosed.png"; // Directly switch to "thinking" image
 
   try {
     // Sending request to Mistral AI model
@@ -69,6 +64,7 @@ async function getAIResponse() {
     // Extract the answer from the response
     const answer = data.choices[0]?.message?.content || "No response received.";
 
+    // Random delay between 4 and 6 seconds
     const delay = Math.random() * (6000 - 4000) + 4000;
 
     setTimeout(() => {
@@ -76,21 +72,14 @@ async function getAIResponse() {
       displayAnswerWordByWord(answer, answerContainer);
 
       // Set GoblinTerje to "finished" mode
-      goblinImage.style.opacity = 0;
-      setTimeout(() => {
-        goblinImage.src = "img/TerjeTrollEyesOpen.png"; 
-        goblinImage.style.opacity = 1; 
-      }, 500);
+      goblinImage.src = "img/TerjeTrollEyesOpen.png"; // Directly switch to "finished" image
     }, delay);
   } catch (error) {
     console.error("Error fetching answer:", error);
     alert("Failed to fetch answer from Mistral. Check the console for details.");
 
-    goblinImage.style.opacity = 0; 
-    setTimeout(() => {
-      goblinImage.src = "img/TerjeTrollEyesOpen.png";
-      goblinImage.style.opacity = 1;
-    }, 500);
+    // Ensure GoblinTerje exits "thinking" mode even if there's an error
+    goblinImage.src = "img/TerjeTrollEyesOpen.png"; // Directly switch to "finished" image
   }
 }
 
