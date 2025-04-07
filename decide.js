@@ -17,6 +17,14 @@ function Decide() {
         </div>
     `;
   updateSarcasticButtonStyle();
+
+  // event listener for pressing enter instead of clicking the button every damn time
+  const inputField = document.getElementById("input");
+  inputField.addEventListener("keypress", (event) => {
+    if (event.key === "Enter") {
+      getAIResponse();
+    }
+  });
 }
 
 async function getAIResponse() {
